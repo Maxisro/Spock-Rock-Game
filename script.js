@@ -52,7 +52,6 @@ function resetAll() {
 }
 window.resetAll = resetAll;
 
-
 // Random cimputer Choice
 function computerRandomChoice() {
 	const computerChoiceNumber = Math.random();
@@ -104,10 +103,12 @@ function updateScore(playerChoice) {
 	} else {
 		const choice = choices[playerChoice];
 		if (choice.defeats.indexOf(computerChoice) > -1) {
-			startConfetti();
-			resultText.textContent = "You Won!";
-			playerScoreNumber++;
-			playerScoreEl.textContent = playerScoreNumber;
+			import("./confetti.js").then((module) => {
+				module.startConfetti();
+				resultText.textContent = "You Won!";
+				playerScoreNumber++;
+				playerScoreEl.textContent = playerScoreNumber;
+			});
 		} else {
 			resultText.textContent = "You Lost!";
 			computerScoreNumber++;
@@ -118,8 +119,11 @@ function updateScore(playerChoice) {
 
 // Call functions to process turn
 function checkResult(playerChoice) {
-	stopConfetti();
-	removeConfetti();
+	import("./confetti.js").then((module) => {
+		module.stopConfetti();
+		module.removeConfetti();
+	});
+
 	resetSelected();
 	computerRandomChoice();
 	displayComputerChoice();
